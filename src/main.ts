@@ -1,11 +1,15 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import { PRODUCT_DEPS_KEY } from './composables/products-key';
-import { createProductDeps } from './config/composition-root';
+import {
+  createAuth0Plugin,
+  createProductDeps,
+} from './config/composition-root';
 import router from './router';
 
 try {
   const app = createApp(App);
+  app.use(createAuth0Plugin());
   app.provide(PRODUCT_DEPS_KEY, createProductDeps());
   app.use(router);
   app.mount('#app');

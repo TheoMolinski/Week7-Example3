@@ -1,4 +1,5 @@
 import type { ProductService } from '../app/product-service';
+import { ProductAccessError } from '../app/product-service';
 import type { Product } from '../domain/product';
 
 export type HttpClient = (
@@ -20,10 +21,14 @@ export class HttpProductService implements ProductService {
     this.http = options.http ?? ((input, init) => fetch(input, init));
   }
 
-  async listProducts(): Promise<readonly Product[]> {
+  async listProducts(accessToken?: string): Promise<readonly Product[]> {
     const headers: Record<string, string> = { Accept: 'application/json' };
+    if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
 
     const response = await this.http(this.productsUrl, { headers });
+    if (response.status === 401)
+      throw new ProductAccessError('unauthenticated');
+    if (response.status === 403) throw new ProductAccessError('forbidden');
     if (!response.ok) {
       throw new Error(
         `Product API request failed with status ${response.status}`,

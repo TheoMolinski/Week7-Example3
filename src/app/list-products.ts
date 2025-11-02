@@ -8,7 +8,8 @@ export type ListProductsResult = {
 
 export async function listProducts(
   deps: ProductDeps,
+  accessToken?: string,
 ): Promise<ListProductsResult> {
-  const data = await deps.productService.listProducts();
+  const data = await deps.productService.listProducts(accessToken);
   return { success: true, data };
 }

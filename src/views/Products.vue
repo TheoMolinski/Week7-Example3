@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import { useProducts } from '@/composables/use-products';
 
 const { products, loading, error, fetchProducts } = useProducts();
-
-onMounted(() => {
-  fetchProducts();
-});
 
 const formatPrice = (p?: number) =>
   p === undefined ? '—' : `£${(p / 100).toFixed(2)}`;
@@ -19,7 +14,7 @@ const formatPrice = (p?: number) =>
     <div v-if="loading" class="loading" role="status">Loading products…</div>
     <div v-else-if="error" class="error" role="alert">
       <p>Error: {{ error }}</p>
-      <button @click="fetchProducts(true)">Retry</button>
+      <button @click="fetchProducts()">Retry</button>
     </div>
     <div v-else-if="products.length === 0" class="empty">
       No products found.
