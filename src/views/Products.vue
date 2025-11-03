@@ -3,8 +3,8 @@ import { useProducts } from '@/composables/use-products';
 
 const { products, loading, error, fetchProducts } = useProducts();
 
-const formatPrice = (p?: number) =>
-  p === undefined ? '—' : `£${(p / 100).toFixed(2)}`;
+const formatPrice = (p?: number | null) =>
+  p === undefined || p === null ? '—' : `£${(p / 100).toFixed(2)}`;
 </script>
 
 <template>

@@ -62,6 +62,7 @@ function decodeProduct(value: unknown): Product {
     typeof name !== 'string' ||
     name.trim() === '' ||
     (pricePence !== undefined &&
+      pricePence !== null &&
       (typeof pricePence !== 'number' ||
         !Number.isSafeInteger(pricePence) ||
         pricePence < 0)) ||
